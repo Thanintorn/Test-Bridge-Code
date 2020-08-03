@@ -1,0 +1,289 @@
+<html>
+    <head>
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+        <title>테스트!</title>
+        <h4 style="margin-left: 1350px;" id="showDate"></h4>
+        <h1>Bridge Table Scoring</h1>
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 75%;
+                margin-left:auto; 
+                margin-right:auto;
+            }
+            table, td, th {
+                border: 2px dotted black;
+                text-align: center;
+            }
+            .container {
+                padding: 2px;
+                width: auto;
+            }
+            input[type=text], input[type=password] {
+                
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+            }
+            .modal{
+                display: none;
+                position: fixed;
+                padding-top: 100px;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0,0,0,0.6);
+            }
+            .modal-content {
+                background-color: #fefefe;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+            }
+            .close {
+                color: #aaaaaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+
+    <body style="background-color: lightgray;">
+        <table id="myTable">
+            <caption><b>First table &#128151</b></caption>
+            <thead>
+                <tr class="headings active">
+                    <th class="text-align">Tool</th>
+                    <th>Table</th>
+                    <th>Player</th>
+                    <th width="25%">Trump</th>
+                    <th style="width:35%">Score</th>
+                    <th>Total Score</th>
+                </tr>
+            </thead>
+            <tr>
+                <td></td>
+                <td>1</td>
+                <td>
+                    <div>
+                        <input type="button" id="btnNS" value="NS" onclick="disableElement01()">
+                        <input type="button" id="btnEW" value="EW" onclick="disableElement02()">
+                        <p id="showTeam"></p>
+                    </div>
+                </td>
+                <td>
+                    <div onclick="selectTrump()">
+                        <button>Spades</button>
+                        <button>Hearts</button>
+                        <input type="button" value="Dimond" >
+                        <input type="button" value="Club" >
+                        <input type="button" value="noTrump" >
+                        <p id="showTrump"></p>
+                    </div>
+                </td>
+                <td>
+                    <div class="container">
+                        <p>Score : <input type="text" id="score"></p>
+                        <button type="button" id="myBtn1">Show Total score</button>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>2</td>
+                <td></td>
+                <td>
+                    <div onclick="selectTrump()">
+                        <button>Spades</button>
+                        <button>Hearts</button>
+                        <input type="button" value="Dimond" >
+                        <input type="button" value="Club" >
+                        <input type="button" value="noTrump" >
+                        <p id="showTrump"></p>
+                    </div>
+                </td>
+                <td>
+                    <button>+5 Point</button>
+                    <button>+10 Point</button>
+                    <button>+20 Point</button>
+                    <button>+50 Point</button>
+                    <button>+100 Point</button>
+                </td>
+                <td>
+                    <div><p onclick="calculate"></p></div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>3</td>
+                <td>
+                    <div>
+                        <input type="button" id="btnNS" value="NS" onclick="disableElement01()">
+                        <input type="button" id="btnEW" value="EW" onclick="disableElement02()">
+                        <p id="showTeam"></p>
+                    </div>
+                </td>
+                <td>
+                    <div onclick="selectTrump()">
+                        <button>Spades</button>
+                        <button>Hearts</button>
+                        <input type="button" value="Dimond" >
+                        <input type="button" value="Club" >
+                        <input type="button" value="noTrump" >
+                        <p id="showTrump"></p>
+                    </div>
+                </td>
+                <td>
+                    <div class="container">
+                        <p>Score : <input type="text" id="score"></p>
+                        <button type="button" id="myBtn1">Show Total score</button>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        <br>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close"></span>
+                <p style="text-align: center; font-size: 30px;">" 안녕하세요~~ "</p>
+            </div>
+        </div>
+
+        <button style="margin-left: 50px;" onclick="myCreateFunction()">+ Round</button>
+
+        <script>
+            var show;
+            var d = new Date();
+            var model = document.getElementById("myModal");
+            var span = document.getElementsByClassName("close")[0];
+
+            document.getElementById("showDate").innerHTML = d.toDateString();
+
+            function disableElement01() {
+                document.getElementById("btnEW").disabled = true;
+                show = "Team NS";
+                document.getElementById("showTeam").innerHTML = show;
+            }
+            function disableElement02() {
+                document.getElementById("btnNS").disabled = true;
+                show = "Team EW";
+                document.getElementById("showTeam").innerHTML = show;
+            }
+
+            function selectTrump(button){
+                var showTrump;
+                switch(selectTrump){
+                    case 'Spades' :
+                        showTrump = "Spade is Trump";
+                        break;
+                    case 'Hearts' :
+                        showTrump = "Heart is Trump";
+                        break;
+                    case 'Diamonds' :
+                        showTrump = "Dimond is Trump";
+                        break;
+                    case 'Clubs' :
+                        showTrump = "Club is Trump";
+                        break;
+                    case 'noTrump' :
+                        showTrump = "No Trump";
+                        break;
+                }
+                document.getElementById("showTrump").innerHTML = showTrump;
+            }
+
+            $(document).ready(function(){
+                $("#myBtn1").click(function(){
+                    alert("Total Score : " + $("#score").val());
+                });
+            });
+
+            function deleteRow(i){
+	            rowCnt--;
+	            var tableName = document.getElementById('assetsTab');
+	            var prev = tableName.rows.length;
+ 
+//			document.getElementById('assetsTab').deleteRow(i);
+                $('#assetsid'+i).val("");
+                document.getElementById("row"+i).style.display = 'none';
+            }
+
+            function myCreateFunction(){
+                var table = document.getElementById("myTable");
+                var row = table.insertRow(row);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);
+                var cell6 = row.insertCell(5);
+                cell1.innerHTML;
+                cell2.innerHTML ;
+                cell3;
+
+                var prev = table.row.length;
+                var count = eval(prev);
+                var delete_row_count = count;
+                row.id = "row"+count;
+                cell1.className = "";
+	            cell1.id = row.id+"_col1";
+	            cell1.innerHTML = '<i class="fa fa-trash" onclick="deleteRow('+count+')" style="cursor:pointer;"></i><input id="deleted'+count+'" name="deleted'+count+'" type="hidden" value="0">';
+
+
+            }
+
+            function calculate(button){
+                var a;
+                switch(calculate){
+                    case '+5 Point' :
+                        a += 5;
+                        return a;
+                        break;
+                    case '+10 Point' :
+                        a += 10;
+                        return a;
+                        break;
+                    case '+20 Point' :
+                        a += 20;
+                        return a;
+                        break;
+                    case '+50 Point' :
+                        a += 50;
+                        return a;
+                        break;
+                    case '+100 Point' :
+                        a += 100;
+                        return a;
+                        break;
+                }
+                document.getElementById("cal").innerHTML = a;
+            }
+
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+        </script> 
+        <script type = "text/javascript"> 
+            $(window).load(function(){
+                $('#myModal').modal('show');
+            });
+        </script>
+    </body>
+</html>
